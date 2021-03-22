@@ -1,6 +1,7 @@
 #!/bin/sh
 
-IMAGE_NAME=lazyatom/rpi-motion
+sudo modprobe bcm2835-v4l2
+IMAGE_NAME=yijiao/rpi-raspbian
 VIDEO_DIRECTORY=`pwd`/videos
 
 mkdir -p $VIDEO_DIRECTORY

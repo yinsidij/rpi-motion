@@ -1,9 +1,12 @@
-FROM resin/rpi-raspbian:latest
+#FROM arm32v7/nextcloud:latest
+FROM raspbian/stretch:latest
+
 
 RUN apt-get update && apt-get upgrade && apt-get install motion
-RUN mkdir /mnt/motion && chown motion /mnt/motion
-COPY motion.conf /etc/motion/motion.conf
+
+RUN mkdir -p /mnt/motion/mymotion
+COPY motion.conf /mnt/motion/mymotion/motion.conf
 
 VOLUME /mnt/motion
 EXPOSE 8081
-ENTRYPOINT ["motion"]
+ENTRYPOINT ["motion", "-c /mnt/motion/mymotion/motion.conf"]

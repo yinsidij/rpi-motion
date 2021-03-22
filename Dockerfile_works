@@ -1,0 +1,22 @@
+#FROM arm32v7/nextcloud:latest
+FROM raspbian/stretch:latest
+
+RUN apt-get update && apt-get install -y
+
+RUN mkdir -p /mnt/motion
+COPY motion.conf /mnt/motion/motion.conf
+
+RUN apt install git-all -y
+RUN apt-get install autoconf automake build-essential pkgconf libtool libzip-dev libjpeg-dev git libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libwebp-dev autopoint -y
+RUN apt-get install libmicrohttpd-dev -y
+RUN cd ~ && \
+git clone https://github.com/Motion-Project/motion.git  && \
+cd motion && \
+autoreconf -fiv  && \
+./configure  && \
+make && \
+make install 
+
+VOLUME /mnt/motion
+EXPOSE 8081
+ENTRYPOINT ["motion", "-c /mnt/motion/motion.conf"]
